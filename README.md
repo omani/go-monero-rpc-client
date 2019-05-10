@@ -29,41 +29,41 @@ You can use our remote node for the stagenet running at pool.cloudissh.com port 
 package main
 
 import (
-	"encoding/json"
-	"fmt"
-	"log"
+  "encoding/json"
+  "fmt"
+  "log"
 
-	"github.com/omani/go-monero-rpc-client/wallet"
+  "github.com/omani/go-monero-rpc-client/wallet"
 )
 
 func checkerr(err error) {
-	if err != nil {
-		log.Panic(err)
-	}
+  if err != nil {
+    log.Panic(err)
+  }
 }
 
 func main() {
-	// Start a wallet client instance
-	client := wallet.New(wallet.Config{
+  // Start a wallet client instance
+  client := wallet.New(wallet.Config{
     Address: "http://127.0.0.1:6061/json_rpc",
-	})
+  })
 
-	// check wallet balance
-	resp, err := client.GetBalance(&wallet.RequestGetBalance{AccountIndex: 0})
-	checkerr(err)
-	res, _ := json.MarshalIndent(resp, "", "\t")
-	fmt.Print(string(res))
+  // check wallet balance
+  resp, err := client.GetBalance(&wallet.RequestGetBalance{AccountIndex: 0})
+  checkerr(err)
+  res, _ := json.MarshalIndent(resp, "", "\t")
+  fmt.Print(string(res))
 
-	// get incoming transfers
-	resp1, err := client.GetTransfers(&wallet.RequestGetTransfers{
-		AccountIndex: 0,
-		In:           true,
-	})
-	checkerr(err)
-	for _, in := range resp1.In {
-		res, _ := json.MarshalIndent(in, "", "\t")
-		fmt.Print(string(res))
-	}
+  // get incoming transfers
+  resp1, err := client.GetTransfers(&wallet.RequestGetTransfers{
+    AccountIndex: 0,
+    In:           true,
+  })
+  checkerr(err)
+  for _, in := range resp1.In {
+    res, _ := json.MarshalIndent(in, "", "\t")
+    fmt.Print(string(res))
+  }
 }
 ```
 
@@ -79,44 +79,44 @@ func main() {
 package main
 
 import (
-	"encoding/json"
-	"fmt"
-	"log"
+  "encoding/json"
+  "fmt"
+  "log"
 
-	"github.com/omani/go-monero-rpc-client/wallet"
+  "github.com/omani/go-monero-rpc-client/wallet"
 )
 
 func checkerr(err error) {
-	if err != nil {
-		log.Panic(err)
-	}
+  if err != nil {
+    log.Panic(err)
+  }
 }
 
 func main() {
   t := httpdigest.New("test", "testpass")
 
-	// Start a wallet client instance
+  // Start a wallet client instance
   client := wallet.New(wallet.Config{
     Address: "http://127.0.0.1:6061/json_rpc",
     Transport: t,
-	})
+  })
 
-	// check wallet balance
-	resp, err := client.GetBalance(&wallet.RequestGetBalance{AccountIndex: 0})
-	checkerr(err)
-	res, _ := json.MarshalIndent(resp, "", "\t")
-	fmt.Print(string(res))
+  // check wallet balance
+  resp, err := client.GetBalance(&wallet.RequestGetBalance{AccountIndex: 0})
+  checkerr(err)
+  res, _ := json.MarshalIndent(resp, "", "\t")
+  fmt.Print(string(res))
 
-	// get incoming transfers
-	resp1, err := client.GetTransfers(&wallet.RequestGetTransfers{
-		AccountIndex: 0,
-		In:           true,
-	})
-	checkerr(err)
-	for _, in := range resp1.In {
-		res, _ := json.MarshalIndent(in, "", "\t")
-		fmt.Print(string(res))
-	}
+  // get incoming transfers
+  resp1, err := client.GetTransfers(&wallet.RequestGetTransfers{
+    AccountIndex: 0,
+    In:           true,
+  })
+  checkerr(err)
+  for _, in := range resp1.In {
+    res, _ := json.MarshalIndent(in, "", "\t")
+    fmt.Print(string(res))
+  }
 }
 ```
 
