@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/gorilla/rpc/v2/json2"
-	"github.com/sirupsen/logrus"
 )
 
 // Client is a monero-wallet-rpc client.
@@ -214,7 +213,6 @@ func (c *client) do(method string, in, out interface{}) error {
 	// we are not expecting any data back
 	if out == nil {
 		v := &json2.EmptyResponse{}
-		logrus.Info("hier")
 		return json2.DecodeClientResponse(resp.Body, v)
 	}
 	return json2.DecodeClientResponse(resp.Body, out)

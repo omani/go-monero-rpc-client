@@ -45,27 +45,24 @@ func checkerr(err error) {
 func main() {
 	// Start a wallet client instance
 	client := wallet.New(wallet.Config{
-		Address: "http://127.0.0.1:6061/json_rpc",
+    Address: "http://127.0.0.1:6061/json_rpc",
 	})
 
 	// check wallet balance
 	resp, err := client.GetBalance(&wallet.RequestGetBalance{AccountIndex: 0})
-	if err != nil {
-		log.Panic(err)
-	}
-	lol, _ := json.MarshalIndent(resp, "", "\t")
-	fmt.Print(string(lol))
+	checkerr(err)
+	res, _ := json.MarshalIndent(resp, "", "\t")
+	fmt.Print(string(res))
 
+	// get incoming transfers
 	resp1, err := client.GetTransfers(&wallet.RequestGetTransfers{
 		AccountIndex: 0,
 		In:           true,
 	})
-	if err != nil {
-		log.Panic(err)
-	}
+	checkerr(err)
 	for _, in := range resp1.In {
-		lol, _ := json.MarshalIndent(in, "", "\t")
-		fmt.Print(string(lol))
+		res, _ := json.MarshalIndent(in, "", "\t")
+		fmt.Print(string(res))
 	}
 }
 ```
@@ -96,32 +93,29 @@ func checkerr(err error) {
 }
 
 func main() {
-	t := httpdigest.New("test", "testpass")
+  t := httpdigest.New("test", "testpass")
 
 	// Start a wallet client instance
 	client := wallet.New(wallet.Config{
-		Address: "http://127.0.0.1:6061/json_rpc",
-		Transport: t,
+    Address: "http://127.0.0.1:6061/json_rpc",
+    Transport: t,
 	})
 
 	// check wallet balance
 	resp, err := client.GetBalance(&wallet.RequestGetBalance{AccountIndex: 0})
-	if err != nil {
-		log.Panic(err)
-	}
-	lol, _ := json.MarshalIndent(resp, "", "\t")
-	fmt.Print(string(lol))
+	checkerr(err)
+	res, _ := json.MarshalIndent(resp, "", "\t")
+	fmt.Print(string(res))
 
+	// get incoming transfers
 	resp1, err := client.GetTransfers(&wallet.RequestGetTransfers{
 		AccountIndex: 0,
 		In:           true,
 	})
-	if err != nil {
-		log.Panic(err)
-	}
+	checkerr(err)
 	for _, in := range resp1.In {
-		lol, _ := json.MarshalIndent(in, "", "\t")
-		fmt.Print(string(lol))
+		res, _ := json.MarshalIndent(in, "", "\t")
+		fmt.Print(string(res))
 	}
 }
 ```
