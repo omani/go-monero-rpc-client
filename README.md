@@ -1,4 +1,5 @@
-# go-monero-rpc-client
+Go Monero RPC Client
+====================
 
 A client implementation for the Monero wallet and daemon RPC written in go.
 This package is inspired by https://github.com/gabstv/go-monero.
