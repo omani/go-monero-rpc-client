@@ -1,6 +1,8 @@
 Go Monero RPC Client
 ====================
 
+<center><img src="https://github.com/monero-ecosystem/go-monero-rpc-client/raw/master/media/img/monero_gopher.png" alt="Monero Gopher" width="200" /></center>
+
 A client implementation for the Monero wallet and daemon RPC written in go.
 This package is inspired by https://github.com/gabstv/go-monero.
 
