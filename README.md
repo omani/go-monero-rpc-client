@@ -10,7 +10,7 @@ This package is inspired by https://github.com/gabstv/go-monero.
 
 ## Wallet RPC Client
 
-[![GoDoc](https://godoc.org/github.com/omani/go-monero-rpc-client/wallet?status.svg)](https://godoc.org/github.com/omani/go-monero-rpc-client/wallet)
+[![GoDoc](https://godoc.org/github.com/monero-ecosystem/go-monero-rpc-client/wallet?status.svg)](https://godoc.org/github.com/monero-ecosystem/go-monero-rpc-client/wallet)
 
 ### Monero RPC Version
 The ```go-monero-rpc-client/wallet``` package is the RPC client for version `v1.3` of the [Monero Wallet RPC](https://www.getmonero.org/resources/developer-guides/wallet-rpc.html).
@@ -18,7 +18,7 @@ The ```go-monero-rpc-client/wallet``` package is the RPC client for version `v1.
 ### Installation
 
 ```sh
-go get -u github.com/omani/go-monero-rpc-client
+go get -u github.com/monero-ecosystem/go-monero-rpc-client
 ```
 
 #### Spawn the monero-wallet-rpc daemon (without rpc login):
@@ -38,7 +38,7 @@ import (
   "fmt"
   "log"
 
-  "github.com/omani/go-monero-rpc-client/wallet"
+  "github.com/monero-ecosystem/go-monero-rpc-client/wallet"
 )
 
 func checkerr(err error) {
@@ -88,7 +88,7 @@ import (
   "fmt"
   "log"
 
-  "github.com/omani/go-monero-rpc-client/wallet"
+  "github.com/monero-ecosystem/go-monero-rpc-client/wallet"
 )
 
 func checkerr(err error) {
