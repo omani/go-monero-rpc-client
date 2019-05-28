@@ -109,6 +109,21 @@ type RequestLabelAddress struct {
 	} `json:"index"`
 }
 
+// ValidateAddress()
+type RequestValidateAddress struct {
+	Address        string `json:"address"`
+	AnyNetType     bool   `json:"any_net_type"`
+	AllowOpenAlias bool   `json:"allow_openalias"`
+}
+
+type ResponseValidateAddress struct {
+	Valid            bool   `json:"valid"`
+	Integrated       bool   `json:"integrated"`
+	Subaddress       bool   `json:"subaddress"`
+	NetType          string `json:"nettype"`
+	OpenAliasAddress string `json:"openalias_address"`
+}
+
 // GetAccounts()
 type RequestGetAccounts struct {
 	// (Optional) Tag for filtering accounts.
