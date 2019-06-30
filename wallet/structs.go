@@ -765,13 +765,15 @@ type RequestGetTransfers struct {
 	// (Optional) List of subaddress indices to query for transfers. (Defaults to empty - all indices)
 	SubaddrIndices []uint64 `json:"subaddr_indices"`
 }
-type ResponseGetTransfersTransfer struct {
+type Transfer struct {
 	// Public address of the transfer.
 	Address string `json:"address"`
 	// Amount transferred.
 	Amount uint64 `json:"amount"`
 	// Number of block mined since the block containing this transaction (or block height at which the transaction should be added to a block if not yet confirmed).
 	Confirmations uint64 `json:"confirmations"`
+	// JSON objects containing transfer destinations:
+	Destinations []*Destination `json:"destinations"`
 	// True if the key image(s) for the transfer have been seen before.
 	DoubleSpendSeen bool `json:"double_spend_seen"`
 	// Transaction fee for this transfer.
@@ -802,11 +804,11 @@ type ResponseGetTransfersTransfer struct {
 }
 type ResponseGetTransfers struct {
 	// Array of transfers:
-	In      []*ResponseGetTransfersTransfer `json:"in"`
-	Out     []*ResponseGetTransfersTransfer `json:"out"`
-	Pending []*ResponseGetTransfersTransfer `json:"pending"`
-	Failed  []*ResponseGetTransfersTransfer `json:"failed"`
-	Pool    []*ResponseGetTransfersTransfer `json:"pool"`
+	In      []*Transfer `json:"in"`
+	Out     []*Transfer `json:"out"`
+	Pending []*Transfer `json:"pending"`
+	Failed  []*Transfer `json:"failed"`
+	Pool    []*Transfer `json:"pool"`
 }
 
 // GetTransferByTxID()
@@ -818,43 +820,7 @@ type RequestGetTransferByTxID struct {
 }
 type ResponseGetTransferByTxID struct {
 	// JSON object containing payment information:
-	Transfer struct {
-		// Address that transferred the funds. Base58 representation of the public keys.
-		Address string `json:"address"`
-		// Amount of this transfer.
-		Amount uint64 `json:"amount"`
-		// Number of block mined since the block containing this transaction (or block height at which the transaction should be added to a block if not yet confirmed).
-		Confirmations uint64 `json:"confirmations"`
-		// JSON objects containing transfer destinations:
-		Destinations []*Destination `json:"destinations"`
-		// True if the key image(s) for the transfer have been seen before.
-		DoubleSpendSeen bool `json:"double_spend_seen"`
-		// Transaction fee for this transfer.
-		Fee uint64 `json:"fee"`
-		// Height of the first block that confirmed this transfer (0 if not mined yet).
-		Height uint64 `json:"height"`
-		// Note about this transfer.
-		Note string `json:"note"`
-		// Payment ID for this transfer.
-		PaymentID string `json:"payment_id"`
-		// JSON object containing the major & minor subaddress index:
-		SubaddrIndex struct {
-			// Account index for the subaddress.
-			Major uint64 `json:"major"`
-			// Index of the subaddress under the account.
-			Minor uint64 `json:"minor"`
-		} `json:"subaddr_index"`
-		// Estimation of the confirmations needed for the transaction to be included in a block.
-		SuggestedConfirmationsThreshold uint64 `json:"suggested_confirmations_threshold"`
-		// POSIX timestamp for when this transfer was first confirmed in a block (or timestamp submission if not mined yet).
-		Timestamp uint64 `json:"timestamp"`
-		// Transaction ID for this transfer.
-		TxID string `json:"txid"`
-		// Transfer type: "in/out/pending/failed/pool"
-		Type string `json:"type"`
-		// Number of blocks until transfer is safely spendable.
-		UnlockTime uint64 `json:"unlock_time"`
-	} `json:"transfer"`
+	Transfer Transfer `json:"transfer"`
 }
 
 // Sign()
