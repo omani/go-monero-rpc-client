@@ -104,9 +104,9 @@ type RequestLabelAddress struct {
 		Major uint64 `json:"major"`
 		// Index of the subaddress in the account.
 		Minor uint64 `json:"minor"`
-		// Label for the address.
-		Label string `json:"label"`
 	} `json:"index"`
+	// Label for the address.
+	Label string `json:"label"`
 }
 
 // ValidateAddress()

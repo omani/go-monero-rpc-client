@@ -254,7 +254,7 @@ func (c *client) CreateAddress(req *RequestCreateAddress) (resp *ResponseCreateA
 }
 
 func (c *client) LabelAddress(req *RequestLabelAddress) (err error) {
-	err = c.do("label_address", nil, nil)
+	err = c.do("label_address", req, nil)
 	if err != nil {
 		return err
 	}

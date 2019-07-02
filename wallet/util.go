@@ -38,3 +38,8 @@ func XMRToDecimal(xmr uint64) string {
 func XMRToFloat64(xmr uint64) float64 {
 	return float64(xmr) / 1e12
 }
+
+// Float64ToXMR converts raw atomic XMR to a float64
+func Float64ToXMR(xmr float64) uint64 {
+	return uint64(xmr * 1e12)
+}
