@@ -41,6 +41,8 @@ type ResponseGetBalance struct {
 		Label string `json:"label"`
 		// Number of unspent outputs available for the subaddress.
 		NumUnspentOutputs uint64 `json:"num_unspent_outputs"`
+		// Blocks to unlock
+		BlocksToUnlock int64 `json:"blocks_to_unlock"`
 	} `json:"per_subaddress"`
 }
 
@@ -393,7 +395,7 @@ type RequestSweepAll struct {
 }
 type ResponseSweepAll struct {
 	// The tx hashes of every transaction.
-	TxHashLigh []string `json:"tx_hash_list"`
+	TxHashList []string `json:"tx_hash_list"`
 	// The transaction keys for every transaction.
 	TxKeyList []string `json:"tx_key_list"`
 	// The amount transferred for every transaction.
