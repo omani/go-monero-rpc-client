@@ -20,6 +20,8 @@ type Client interface {
 	CreateAddress(*RequestCreateAddress) (*ResponseCreateAddress, error)
 	// Label an address.
 	LabelAddress(*RequestLabelAddress) error
+	// Validate an address.
+	ValidateAddress(*RequestValidateAddress) (*ResponseValidateAddress, error)
 	// Get all accounts for a wallet. Optionally filter accounts by tag.
 	GetAccounts(*RequestGetAccounts) (*ResponseGetAccounts, error)
 	// Create a new account with an optional label.
@@ -252,12 +254,21 @@ func (c *client) CreateAddress(req *RequestCreateAddress) (resp *ResponseCreateA
 }
 
 func (c *client) LabelAddress(req *RequestLabelAddress) (err error) {
-	err = c.do("label_address", nil, nil)
+	err = c.do("label_address", req, nil)
 	if err != nil {
 		return err
 	}
 	return
 }
+
+func (c *client) ValidateAddress(req *RequestValidateAddress) (resp *ResponseValidateAddress, err error) {
+	err = c.do("validate_address", &req, &resp)
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
 func (c *client) GetAccounts(req *RequestGetAccounts) (resp *ResponseGetAccounts, err error) {
 	err = c.do("get_accounts", &req, &resp)
 	if err != nil {
