@@ -129,11 +129,11 @@ type ResponseGetAccounts struct {
 		Tag string `json:"tag"`
 		// Unlocked balance for the account.
 		UnlockedBalance uint64 `json:"unlocked_balance"`
-		// Total balance of the selected accounts (locked or unlocked).
-		TotalBalance uint64 `json:"total_balance"`
-		// Total unlocked balance of the selected accounts.
-		TotalUnlockedBalance uint64 `json:"total_unlocked_balance"`
 	} `json:"subaddress_accounts"`
+	// Total balance of the selected accounts (locked or unlocked).
+	TotalBalance uint64 `json:"total_balance"`
+	// Total unlocked balance of the selected accounts.
+	TotalUnlockedBalance uint64 `json:"total_unlocked_balance"`
 }
 
 // CreateAccount()
