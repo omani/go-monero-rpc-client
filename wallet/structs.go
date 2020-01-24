@@ -114,8 +114,8 @@ type RequestLabelAddress struct {
 // ValidateAddress()
 type RequestValidateAddress struct {
 	Address        string `json:"address"`
-	AnyNetType     bool   `json:"any_net_type"`
-	AllowOpenAlias bool   `json:"allow_openalias"`
+	AnyNetType     bool   `json:"any_net_type,omitempty"`
+	AllowOpenAlias bool   `json:"allow_openalias,omitempty"`
 }
 
 type ResponseValidateAddress struct {
@@ -226,8 +226,8 @@ type RequestTransfer struct {
 	Priority Priority `json:"priority"`
 	// Number of outputs from the blockchain to mix with (0 means no mixing).
 	Mixing uint64 `json:"mixin"`
-	// Number of outputs to mix in the transaction (this output + N decoys from the blockchain).
-	RingSize uint64 `json:"ring_size"`
+	// (Optional) Number of outputs to mix in the transaction (this output + N decoys from the blockchain).
+	RingSize uint64 `json:"ring_size,omitempty"`
 	// Number of blocks before the monero can be spent (0 to not add a lock).
 	UnlockTime uint64 `json:"unlock_time"`
 	// (Optional) Random 32-byte/64-character hex string to identify a transaction.
@@ -235,11 +235,11 @@ type RequestTransfer struct {
 	// (Optional) Return the transaction key after sending.
 	GetTxKey bool `json:"get_tx_key"`
 	// (Optional) If true, the newly created transaction will not be relayed to the monero network. (Defaults to false)
-	DoNotRelay bool `json:"do_not_relay"`
-	// Return the transaction as hex string after sending (Defaults to false)
-	GetTxHex bool `json:"get_tx_hex"`
-	// Return the metadata needed to relay the transaction. (Defaults to false)
-	GetTxMetadata bool `json:"get_tx_metadata"`
+	DoNotRelay bool `json:"do_not_relay,omitempty"`
+	// (Optional) Return the transaction as hex string after sending (Defaults to false)
+	GetTxHex bool `json:"get_tx_hex,omitempty"`
+	// (Optional) Return the metadata needed to relay the transaction. (Defaults to false)
+	GetTxMetadata bool `json:"get_tx_metadata,omitempty"`
 }
 type ResponseTransfer struct {
 	// Amount transferred for the transaction.
@@ -270,8 +270,8 @@ type RequestTransferSplit struct {
 	SubaddrIndices []uint64 `json:"subaddr_indices"`
 	// Number of outputs from the blockchain to mix with (0 means no mixing).
 	Mixin uint64 `json:"mixin"`
-	// Sets ringsize to n (mixin + 1).
-	RingSize uint64 `json:"ring_size"`
+	// (Optional) Sets ringsize to n (mixin + 1).
+	RingSize uint64 `json:"ring_size,omitempty"`
 	// Number of blocks before the monero can be spent (0 to not add a lock).
 	UnlockTime uint64 `json:"unlock_time"`
 	// (Optional) Random 32-byte/64-character hex string to identify a transaction.
@@ -281,13 +281,13 @@ type RequestTransferSplit struct {
 	// Set a priority for the transactions. Accepted Values are: 0-3 for: default, unimportant, normal, elevated, priority.
 	Priority Priority `json:"priority"`
 	// (Optional) If true, the newly created transaction will not be relayed to the monero network. (Defaults to false)
-	DoNotRelay bool `json:"do_not_relay"`
-	// Return the transactions as hex string after sending
-	GetTxHex bool `json:"get_tx_hex"`
+	DoNotRelay bool `json:"do_not_relay,omitempty"`
+	// (Optional) Return the transactions as hex string after sending
+	GetTxHex bool `json:"get_tx_hex,omitempty"`
 	// True to use the new transaction construction algorithm, defaults to false.
 	NewAlgorithm bool `json:"new_algorithm"`
-	// Return list of transaction metadata needed to relay the transfer later.
-	GetTxMetadata bool `json:"get_tx_metadata"`
+	// (Optional) Return list of transaction metadata needed to relay the transfer later.
+	GetTxMetadata bool `json:"get_tx_metadata,omitempty"`
 }
 type ResponseTransferSplit struct {
 	// The tx hashes of every transaction.
@@ -313,7 +313,7 @@ type RequestSignTransfer struct {
 	// Set of unsigned tx returned by "transfer" or "transfer_split" methods.
 	UnsighnedxSet string `json:"unsigned_txset"`
 	// (Optional) If true, return the raw transaction data. (Defaults to false)
-	ExportRaw bool `json:"export_raw"`
+	ExportRaw bool `json:"export_raw,omitempty"`
 }
 type ResponseSignTransfer struct {
 	// Set of signed tx to be used for submitting transfer.
@@ -339,11 +339,11 @@ type RequestSweepDust struct {
 	// (Optional) Return the transaction keys after sending.
 	GetTxKeys bool `json:"get_tx_keys"`
 	// (Optional) If true, the newly created transaction will not be relayed to the monero network. (Defaults to false)
-	DoNotRelay bool `json:"do_not_relay"`
+	DoNotRelay bool `json:"do_not_relay,omitempty"`
 	// (Optional) Return the transactions as hex string after sending. (Defaults to false)
-	GetTxHey bool `json:"get_tx_hex"`
+	GetTxHey bool `json:"get_tx_hex,omitempty"`
 	// (Optional) Return list of transaction metadata needed to relay the transfer later. (Defaults to false)
-	GetTxMetadata bool `json:"get_tx_metadata"`
+	GetTxMetadata bool `json:"get_tx_metadata,omitempty"`
 }
 type ResponseSweepDust struct {
 	// The tx hashes of every transaction.
@@ -376,22 +376,22 @@ type RequestSweepAll struct {
 	Priority Priority `json:"priority"`
 	//  Number of outputs from the blockchain to mix with (0 means no mixing).
 	Mixin uint64 `json:"mixin"`
-	//  Sets ringsize to n (mixin + 1).
-	RingSize uint64 `json:"ring_size"`
+	//  (Optional) Sets ringsize to n (mixin + 1).
+	RingSize uint64 `json:"ring_size,omitempty"`
 	//  Number of blocks before the monero can be spent (0 to not add a lock).
 	UnlockTime uint64 `json:"unlock_time"`
-	//  Optional) Random 32-byte/64-character hex string to identify a transaction.
+	//  (Optional) Random 32-byte/64-character hex string to identify a transaction.
 	PaymentID string `json:"payment_id"`
-	//  Optional) Return the transaction keys after sending.
+	//  (Optional) Return the transaction keys after sending.
 	GetTxKeys bool `json:"get_tx_keys"`
 	//  (Optional) Include outputs below this amount.
 	BelowAmount uint64 `json:"below_amount"`
-	//  Optional) If true, do not relay this sweep transfer. (Defaults to false)
-	DoNotRelay bool `json:"do_not_relay"`
-	//  Optional) return the transactions as hex encoded string. (Defaults to false)
-	GetTxHex bool `json:"get_tx_hex"`
-	//  Optional) return the transaction metadata as a string. (Defaults to false)
-	GetTxMetadata bool `json:"get_tx_metadata"`
+	//  (Optional) If true, do not relay this sweep transfer. (Defaults to false)
+	DoNotRelay bool `json:"do_not_relay,omitempty"`
+	//  (Optional) return the transactions as hex encoded string. (Defaults to false)
+	GetTxHex bool `json:"get_tx_hex,omitempty"`
+	//  (Optional) return the transaction metadata as a string. (Defaults to false)
+	GetTxMetadata bool `json:"get_tx_metadata,omitempty"`
 }
 type ResponseSweepAll struct {
 	// The tx hashes of every transaction.
@@ -424,8 +424,8 @@ type RequestSweepSingle struct {
 	Priority Priority `json:"priority"`
 	// Number of outputs from the blockchain to mix with (0 means no mixing).
 	Mixin uint64 `json:"mixin"`
-	// Sets ringsize to n (mixin + 1).
-	RingSize uint64 `json:"ring_size"`
+	// (Optional) Sets ringsize to n (mixin + 1).
+	RingSize uint64 `json:"ring_size,omitempty"`
 	// Number of blocks before the monero can be spent (0 to not add a lock).
 	UnlockTime uint64 `json:"unlock_time"`
 	// (Optional) Random 32-byte/64-character hex string to identify a transaction.
@@ -437,11 +437,11 @@ type RequestSweepSingle struct {
 	// (Optional) Include outputs below this amount.
 	BelowAmount uint64 `json:"below_amount"`
 	// (Optional) If true, do not relay this sweep transfer. (Defaults to false)
-	DoNotRelay bool `json:"do_not_relay"`
+	DoNotRelay bool `json:"do_not_relay,omitempty"`
 	// (Optional) return the transactions as hex encoded string. (Defaults to false)
-	GetTxHey bool `json:"get_tx_hex"`
+	GetTxHey bool `json:"get_tx_hex,omitempty"`
 	// (Optional) return the transaction metadata as a string. (Defaults to false)
-	GetTxMetadata bool `json:"get_tx_metadata"`
+	GetTxMetadata bool `json:"get_tx_metadata,omitempty"`
 }
 type ResponseSweepSingle struct {
 	// The tx hashes of every transaction.
@@ -776,7 +776,7 @@ type RequestGetTransfers struct {
 	// (Optional) Minimum block height to scan for transfers, if filtering by height is enabled.
 	MinHeight uint64 `json:"min_height"`
 	// (Opional) Maximum block height to scan for transfers, if filtering by height is enabled (defaults to max block height).
-	MaxHeight uint64 `json:"max_height"`
+	MaxHeight uint64 `json:"max_height,omitempty"`
 	// (Optional) Index of the account to query for transfers. (defaults to 0)
 	AccountIndex uint64 `json:"account_index"`
 	// (Optional) List of subaddress indices to query for transfers. (Defaults to empty - all indices)
@@ -833,7 +833,7 @@ type RequestGetTransferByTxID struct {
 	// Transaction ID used to find the transfer.
 	TxID string `json:"txid"`
 	// (Optional) Index of the account to query for the transfer.
-	AccountIndex uint64 `json:"account_index"`
+	AccountIndex uint64 `json:"account_index,omitempty"`
 }
 type ResponseGetTransferByTxID struct {
 	// JSON object containing payment information:
@@ -980,7 +980,7 @@ type RequestDeleteAddressBook struct {
 // Refresh()
 type RequestRefresh struct {
 	// (Optional) The block height from which to start refreshing.
-	StartHeight uint64 `json:"start_height"`
+	StartHeight uint64 `json:"start_height,omitempty"`
 }
 type ResponseRefresh struct {
 	// Number of new blocks scanned.
