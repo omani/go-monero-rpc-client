@@ -253,8 +253,8 @@ type ResponseTransfer struct {
 	// String for the publically searchable transaction hash.
 	TxHash string `json:"tx_hash"`
 	// String for the transaction key if get_tx_key is true, otherwise, blank string.
-	TxKey string `json:"tx_key"`
-	// TxMetadata tx_metadata - Set of transaction metadata needed to relay this transfer later, if get_tx_metadata is true.
+	TxKey      string `json:"tx_key"`
+	TxMetadata string `json:"tx_metadata"` // TxMetadata tx_metadata - Set of transaction metadata needed to relay this transfer later, if get_tx_metadata is true.
 
 	// String. Set of unsigned tx for cold-signing purposes.
 	UnsignedTxSet string `json:"unsigned_txset"`
