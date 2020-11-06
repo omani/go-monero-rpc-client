@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"fmt"
+	"strconv"
 )
 
 // NewPaymentID64 generates a 64 bit payment ID (hex encoded).
@@ -39,7 +40,16 @@ func XMRToFloat64(xmr uint64) float64 {
 	return float64(xmr) / 1e12
 }
 
-// Float64ToXMR converts raw atomic XMR to a float64
+// Float64ToXMR converts a float64 to a raw atomic XMR
 func Float64ToXMR(xmr float64) uint64 {
 	return uint64(xmr * 1e12)
+}
+
+// StringToXMR converts a string to a raw atomic XMR
+func StringToXMR(xmr string) (uint64, error) {
+	f, err := strconv.ParseFloat(xmr, 64)
+	if err != nil {
+		return 0, err
+	}
+	return uint64(f * 1e12), nil
 }
