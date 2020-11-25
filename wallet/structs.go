@@ -372,6 +372,8 @@ type RequestSweepAll struct {
 	AccountIndex uint64 `json:"account_index"`
 	//  (Optional) Sweep from this set of subaddresses in the account.
 	SubaddrIndices []uint64 `json:"subaddr_indices"`
+	//  (Optional) Sweep from all subaddresses in the account (default: false).
+	SubaddrIndicesAll bool `json:"subaddr_indices_all"`
 	//  (Optional) Priority for sending the sweep transfer, partially determines fee.
 	Priority Priority `json:"priority"`
 	//  Number of outputs from the blockchain to mix with (0 means no mixing).
