@@ -714,7 +714,7 @@ type RequestGetSpendProof struct {
 }
 type ResponseGetSpendProof struct {
 	// Spend signature.
-	Signature string `json":signature"`
+	Signature string `json:"signature"`
 }
 
 // CheckSpendProof()
