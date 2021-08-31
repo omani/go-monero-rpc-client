@@ -341,7 +341,7 @@ type RequestSweepDust struct {
 	// (Optional) If true, the newly created transaction will not be relayed to the monero network. (Defaults to false)
 	DoNotRelay bool `json:"do_not_relay,omitempty"`
 	// (Optional) Return the transactions as hex string after sending. (Defaults to false)
-	GetTxHey bool `json:"get_tx_hex,omitempty"`
+	GetTxHex bool `json:"get_tx_hex,omitempty"`
 	// (Optional) Return list of transaction metadata needed to relay the transfer later. (Defaults to false)
 	GetTxMetadata bool `json:"get_tx_metadata,omitempty"`
 }
@@ -441,7 +441,7 @@ type RequestSweepSingle struct {
 	// (Optional) If true, do not relay this sweep transfer. (Defaults to false)
 	DoNotRelay bool `json:"do_not_relay,omitempty"`
 	// (Optional) return the transactions as hex encoded string. (Defaults to false)
-	GetTxHey bool `json:"get_tx_hex,omitempty"`
+	GetTxHex bool `json:"get_tx_hex,omitempty"`
 	// (Optional) return the transaction metadata as a string. (Defaults to false)
 	GetTxMetadata bool `json:"get_tx_metadata,omitempty"`
 }
