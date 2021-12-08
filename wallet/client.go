@@ -707,10 +707,10 @@ func (c *client) CreateWallet(req *RequestCreateWallet) (err error) {
 	}
 	return
 }
-func (c *client) GenerateFromKeys(*RequestGenerateFromKeys) (*ResponseGenerateFromKeys, error) {
+func (c *client) GenerateFromKeys(req *RequestGenerateFromKeys) (resp *ResponseGenerateFromKeys, err error) {
 	err = c.do("generate_from_keys", &req, nil)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return
 }
@@ -721,10 +721,10 @@ func (c *client) OpenWallet(req *RequestOpenWallet) (err error) {
 	}
 	return
 }
-func (c *client) RestoreDeterministicWallet(*RequestRestoreDeterministicWallet) (*ResponseRestoreDeterministicWallet, error) {
+func (c *client) RestoreDeterministicWallet(req *RequestRestoreDeterministicWallet) (resp *ResponseRestoreDeterministicWallet, err error) {
 	err = c.do("restore_deterministic_wallet", &req, nil)
 	if err != nil {
-		return err
+		return nil, err
 	}
 	return
 }

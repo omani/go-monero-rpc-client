@@ -1018,14 +1018,13 @@ type RequestCreateWallet struct {
 }
 
 // GenerateFromKeys()
-type RequestGenerateFromKeys strict {
+type RequestGenerateFromKeys struct {
 	// (Optional; defaults to 0) The block height to restore the wallet from.
 	RestoreHeight int `json:"restore_height"`
 	// The wallet's file name on the RPC server.
 	Filename string `json:"filename"`
 	// The wallet's primary address.
 	Address string `json:"address"`
-	spendkey - string;
 	// (Optional; omit to create a view-only wallet) The wallet's private spend key.
 	SpendKey string `json:"spendkey"`
 	// The wallet's private view key.
@@ -1035,8 +1034,9 @@ type RequestGenerateFromKeys strict {
 	// (Defaults to true) If true, save the current wallet before generating the new wallet.
 	AutoSaveCurrent bool `json:"autosave_current"`
 }
+
 // GenerateFromKeys()
-type ResponseGenerateFromKeys strict {
+type ResponseGenerateFromKeys struct {
 	// The wallet's address.
 	Address string `json:"address"`
 	// Verification message indicating that the wallet was generated successfully and whether or not it is a view-only wallet.
