@@ -1017,12 +1017,68 @@ type RequestCreateWallet struct {
 	Language string `json:"language"`
 }
 
+// GenerateFromKeys()
+type RequestGenerateFromKeys strict {
+	// (Optional; defaults to 0) The block height to restore the wallet from.
+	RestoreHeight int `json:"restore_height"`
+	// The wallet's file name on the RPC server.
+	Filename string `json:"filename"`
+	// The wallet's primary address.
+	Address string `json:"address"`
+	spendkey - string;
+	// (Optional; omit to create a view-only wallet) The wallet's private spend key.
+	SpendKey string `json:"spendkey"`
+	// The wallet's private view key.
+	ViewKey string `json:"viewkey"`
+	// The wallet's password.
+	Password string `json:"password"`
+	// (Defaults to true) If true, save the current wallet before generating the new wallet.
+	AutoSaveCurrent bool `json:"autosave_current"`
+}
+// GenerateFromKeys()
+type ResponseGenerateFromKeys strict {
+	// The wallet's address.
+	Address string `json:"address"`
+	// Verification message indicating that the wallet was generated successfully and whether or not it is a view-only wallet.
+	Info string `json:"info"`
+}
+
 // OpenWallet()
 type RequestOpenWallet struct {
 	// Wallet name stored in –wallet-dir.
 	Filename string `json:"filename"`
 	// (Optional) only needed if the wallet has a password defined.
 	Password string `json:"password"`
+}
+
+// RestoreDeterministicWallet()
+type RequestRestoreDeterministicWallet struct {
+	// Name of the wallet.
+	Name string `json:"name"`
+	// Password of the wallet.
+	Password string `json:"password"`
+	// Mnemonic phrase of the wallet to restore.
+	Seed string `json:"seed"`
+	// (Optional) Block height to restore the wallet from (default = 0).
+	RestoreHeight int `json:"restore_height"`
+	// (Optional) Language of the mnemonic phrase in case the old language is invalid.
+	Language string `json:"language"`
+	// (Optional) Offset used to derive a new seed from the given mnemonic to recover a secret wallet from the mnemonic phrase.
+	SeedOffset string `json:"seed_offset"`
+	// Whether to save the currently open RPC wallet before closing it (Defaults to true).
+	AutoSaveCurrent bool `json:"autosave_current"`
+}
+
+// RestoreDeterministicWallet()
+type ResponseRestoreDeterministicWallet struct {
+	// 95-character hexadecimal address of the restored wallet as a string.
+	Address string `json:"address"`
+	// Message describing the success or failure of the attempt to restore the wallet.
+	Info string `json:"info"`
+	// Mnemonic phrase of the restored wallet, which is updated if the wallet was restored from a deprecated-style mnemonic phrase.
+	Seed string `json:"seed"`
+	// Indicates if the restored wallet was created from a deprecated-style mnemonic phrase.
+	WasDeprecated bool `json:"was_deprecated"`
 }
 
 // ChangeWalletPassword()

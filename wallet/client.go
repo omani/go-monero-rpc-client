@@ -137,8 +137,12 @@ type Client interface {
 	GetLanguages() (*ResponseGetLanguages, error)
 	// Create a new wallet. You need to have set the argument "–wallet-dir" when launching monero-wallet-rpc to make this work.
 	CreateWallet(*RequestCreateWallet) error
+	// Restores a wallet from a given wallet address, view key, and optional spend key.
+	GenerateFromKeys(*RequestGenerateFromKeys) (*ResponseGenerateFromKeys, error)
 	// Open a wallet. You need to have set the argument "–wallet-dir" when launching monero-wallet-rpc to make this work.
 	OpenWallet(*RequestOpenWallet) error
+	// Create and open a wallet on the RPC server from an existing mnemonic phrase and close the currently open wallet.
+	RestoreDeterministicWallet(*RequestRestoreDeterministicWallet) (*ResponseRestoreDeterministicWallet, error)
 	// Close the currently opened wallet, after trying to save it.
 	CloseWallet() error
 	// Change a wallet password.
@@ -703,8 +707,22 @@ func (c *client) CreateWallet(req *RequestCreateWallet) (err error) {
 	}
 	return
 }
+func (c *client) GenerateFromKeys(*RequestGenerateFromKeys) (*ResponseGenerateFromKeys, error) {
+	err = c.do("generate_from_keys", &req, nil)
+	if err != nil {
+		return err
+	}
+	return
+}
 func (c *client) OpenWallet(req *RequestOpenWallet) (err error) {
 	err = c.do("open_wallet", &req, nil)
+	if err != nil {
+		return err
+	}
+	return
+}
+func (c *client) RestoreDeterministicWallet(*RequestRestoreDeterministicWallet) (*ResponseRestoreDeterministicWallet, error) {
+	err = c.do("restore_deterministic_wallet", &req, nil)
 	if err != nil {
 		return err
 	}
