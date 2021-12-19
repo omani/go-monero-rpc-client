@@ -1054,7 +1054,7 @@ type RequestOpenWallet struct {
 // RestoreDeterministicWallet()
 type RequestRestoreDeterministicWallet struct {
 	// Name of the wallet.
-	Name string `json:"name"`
+	Filename string `json:"filename"`
 	// Password of the wallet.
 	Password string `json:"password"`
 	// Mnemonic phrase of the wallet to restore.
