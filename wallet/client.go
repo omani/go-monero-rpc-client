@@ -137,6 +137,8 @@ type Client interface {
 	GetLanguages() (*ResponseGetLanguages, error)
 	// Create a new wallet. You need to have set the argument "–wallet-dir" when launching monero-wallet-rpc to make this work.
 	CreateWallet(*RequestCreateWallet) error
+	// Restores a wallet from a given wallet address, view key, and optional spend key. You need to have set the argument "–wallet-dir" when launching monero-wallet-rpc to make this work.
+	GenerateFromKeys(*RequestGenerateFromKeys) (*ResponseGenerateFromKeys, error)
 	// Open a wallet. You need to have set the argument "–wallet-dir" when launching monero-wallet-rpc to make this work.
 	OpenWallet(*RequestOpenWallet) error
 	// Close the currently opened wallet, after trying to save it.
@@ -700,6 +702,13 @@ func (c *client) CreateWallet(req *RequestCreateWallet) (err error) {
 	err = c.do("create_wallet", &req, nil)
 	if err != nil {
 		return err
+	}
+	return
+}
+func (c *client) GenerateFromKeys(req *RequestGenerateFromKeys) (resp *ResponseGenerateFromKeys, err error) {
+	err = c.do("generate_from_keys", &req, &resp)
+	if err != nil {
+		return nil, err
 	}
 	return
 }

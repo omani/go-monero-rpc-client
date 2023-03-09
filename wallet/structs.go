@@ -1017,6 +1017,32 @@ type RequestCreateWallet struct {
 	Language string `json:"language"`
 }
 
+// GenerateFromKeys()
+type RequestGenerateFromKeys struct {
+	// (Optional) The block height to restore the wallet from. (Defaults to 0)
+	RestoreHeight int64 `json:"restore_height"`
+	// The wallet's file name on the RPC server.
+	Filename string `json:"filename"`
+	// The wallet's primary address.
+	Address string `json:"address"`
+	// (Optional - omit to create a view-only wallet) The wallet's private spend key.
+	SpendKey string `json:"spendkey"`
+	// The wallet's private view key.
+	ViewKey string `json:"viewkey"`
+	// The wallet's password.
+	Password string `json:"password"`
+	// (Optional) If true, save the current wallet before generating the new wallet. (Defaults to true)
+	AutoSaveCurrent bool `json:"autosave_current"`
+}
+
+// GenerateFromKeys()
+type ResponseGenerateFromKeys struct {
+	// The wallet's address.
+	Address string `json:"address"`
+	// Verification message indicating that the wallet was generated successfully and whether or not it is a view-only wallet.
+	Info string `json:"info"`
+}
+
 // OpenWallet()
 type RequestOpenWallet struct {
 	// Wallet name stored in –wallet-dir.
