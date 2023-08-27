@@ -1033,8 +1033,6 @@ type RequestGenerateFromKeys struct {
 	Password string `json:"password"`
 	// (Optional) If true, save the current wallet before generating the new wallet. (Defaults to true)
 	AutoSaveCurrent bool `json:"autosave_current"`
-	// (Optional) Language for your wallets' seed. (Defaults is "English")
-	Language bool `json:"language"`
 }
 
 // GenerateFromKeys()
