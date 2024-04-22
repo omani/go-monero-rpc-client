@@ -1,18 +1,6 @@
 Go Monero RPC Client
 ====================
 
-# ATTENTION
-Due to a data leakage of sensitive information, a hard push had to be made, which resulted in a new git history.
-
-**What this means for you:**
-If you already forked or cloned this repository and should you see that pulling this repo to fetch/merge new changes **fail**, you are affected. YOU NEED TO **!!!REBASE, NOT MERGE!!!** master to your existing local repository. Or, if you havent made any local changes, you can remove the whole repository and clone this repository again.
-
-**Nothing has changed in the code or in the library itself. Everything works as before the incident.**
-
-Our sincere apologies for the inconvenience to all collaborators and users. 
-
----
-
 <p align="center">
 <img src="https://github.com/monero-ecosystem/go-monero-rpc-client/raw/master/media/img/monero_gopher.png" alt="Monero Gopher" width="200" />
 </p>
