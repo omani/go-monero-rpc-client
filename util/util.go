@@ -1,9 +1,12 @@
-package wallet
+package util
 
 import (
 	"crypto/rand"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
+	"io"
+	"log"
 	"strconv"
 )
 
@@ -52,4 +55,21 @@ func StringToXMR(xmr string) (uint64, error) {
 		return 0, err
 	}
 	return uint64(f * 1e12), nil
+}
+
+// JSON Mapping Related
+func ParseResponse[R any](body io.Reader) (*R, error) {
+	data, err := io.ReadAll(body)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+
+	var result R
+	if err := json.Unmarshal(data, &result); err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+
+	return &result, nil
 }
