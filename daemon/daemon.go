@@ -14,34 +14,16 @@ import (
 
 var defaultMoneroRpcHeader = JsonRpcHeader{"0", "2.0"}
 
-type IDaemonRpcClient interface {
-	Connect() error
-	Reconnect() error
-
-	StartSync() error
-	StopSync()
-
-	SetRpcConnection(c *RpcConnection)
-	SetTimeout(timeout uint32)
-
-	sendRequest()
-
-	GetCurrentHeight()
-}
-
 type DaemonRpcClient struct {
-	// Monero daemon rpc connection data
-	connData RpcConnection
-	// Sync timeout
-	timeout time.Duration
-	// Last block height synchronized
-	lbh    uint64
-	dlh    DaemonListenerHandler
-	httpcl http.Client
+	connData RpcConnection // Monero daemon rpc connection data
+	timeout  time.Duration // Sync timeout
+	lbh      uint64        // Last block height synchronized
+	dlh      DaemonListenerHandler
+	httpcl   http.Client
 }
 
 func (c *DaemonRpcClient) sendRequest(method string, path string, body io.Reader) (*http.Response, error) {
-	url, err := url.JoinPath(c.connData.host, path)
+	url, err := url.JoinPath(c.connData.host.String(), path)
 	if err != nil {
 		return nil, err
 	}
@@ -87,20 +69,125 @@ func (c *DaemonRpcClient) GetCurrentHeight() (*GetHeightResponse, error) {
 		log.Println(err.Error())
 		return nil, err
 	}
-
-	return res, nil
-}
-
-func (c *DaemonRpcClient) GetBlockCount() (*MoneroRpcGenericResponse[GetBlockCountResult], error) {
-	res, err := getResultFromDaemonRpc[MoneroRpcGenericResponse[GetBlockCountResult]](c, http.MethodPost, "/json_rpc", &MoneroRpcRequest[EmptyMoneroRpcParams]{defaultMoneroRpcHeader, "get_block_count", ""})
-	if err != nil {
-		log.Println(err.Error())
-		return nil, err
+	if res.Error.Code != 0 {
+		return nil, &res.Error
 	}
 
 	return res, nil
 }
 
-func Create(c *RpcConnection, timeout time.Duration, dlh DaemonListenerHandler) *DaemonRpcClient {
+// get_block_count
+func (c *DaemonRpcClient) GetBlockCount() (*MoneroRpcGenericResponse[GetBlockCountResult], error) {
+	req := &MoneroRpcRequest[GetBlockCountParams]{defaultMoneroRpcHeader, "get_block_count", GetBlockCountParams{}}
+
+	res, err := getResultFromDaemonRpc[MoneroRpcGenericResponse[GetBlockCountResult]](c, http.MethodPost, "/json_rpc", req)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+	if res.Error.Code != 0 {
+		return nil, &res.Error
+	}
+
+	return res, nil
+}
+
+// on_get_block_hash
+func (c *DaemonRpcClient) OnGetBlockHash(height uint64) (*MoneroRpcGenericResponse[OnGetBlockHashResult], error) {
+	req := &MoneroRpcRequest[OnGetBlockHashParams]{defaultMoneroRpcHeader, "on_get_block_hash", [1]uint64{height}}
+
+	res, err := getResultFromDaemonRpc[MoneroRpcGenericResponse[OnGetBlockHashResult]](c, http.MethodPost, "/json_rpc", req)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+	if res.Error.Code != 0 {
+		return nil, &res.Error
+	}
+
+	return res, nil
+}
+
+// get_block_template
+func (c *DaemonRpcClient) GetBlockTemplate(wallet string, reverseSize uint64) (*MoneroRpcGenericResponse[GetBlockTemplateResult], error) {
+	req := &MoneroRpcRequest[GetBlockTemplateParams]{defaultMoneroRpcHeader, "get_block_template", GetBlockTemplateParams{wallet, reverseSize}}
+
+	res, err := getResultFromDaemonRpc[MoneroRpcGenericResponse[GetBlockTemplateResult]](c, http.MethodPost, "/json_rpc", req)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+	if res.Error.Code != 0 {
+		return nil, &res.Error
+	}
+
+	return res, nil
+}
+
+// get_last_block_header
+func (c *DaemonRpcClient) GetLastBlockHeader(fillPowHash bool) (*MoneroRpcGenericResponse[GetLastBlockHeaderResult], error) {
+	req := &MoneroRpcRequest[GetLastBlockHeaderParams]{defaultMoneroRpcHeader, "get_last_block_header", GetLastBlockHeaderParams{fillPowHash}}
+
+	res, err := getResultFromDaemonRpc[MoneroRpcGenericResponse[GetLastBlockHeaderResult]](c, http.MethodPost, "/json_rpc", req)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+	if res.Error.Code != 0 {
+		return nil, &res.Error
+	}
+
+	return res, nil
+}
+
+// get_block_header_by_hash
+func (c *DaemonRpcClient) GetBlockHeaderByHash(fillPowHash bool, hash string) (*MoneroRpcGenericResponse[GetBlockHeaderByHashResult], error) {
+	req := &MoneroRpcRequest[GetBlockHeaderByHashParams]{defaultMoneroRpcHeader, "get_block_header_by_hash", GetBlockHeaderByHashParams{GetLastBlockHeaderParams{fillPowHash}, hash}}
+
+	res, err := getResultFromDaemonRpc[MoneroRpcGenericResponse[GetBlockHeaderByHashResult]](c, http.MethodPost, "/json_rpc", req)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+	if res.Error.Code != 0 {
+		return nil, &res.Error
+	}
+
+	return res, nil
+}
+
+// get_block_header_by_height
+func (c *DaemonRpcClient) GetBlockHeaderByHeight(fillPowHash bool, height uint64) (*MoneroRpcGenericResponse[GetBlockHeaderByHeightResult], error) {
+	req := &MoneroRpcRequest[GetBlockHeaderByHeightParams]{defaultMoneroRpcHeader, "get_block_header_by_height", GetBlockHeaderByHeightParams{GetLastBlockHeaderParams{fillPowHash}, height}}
+
+	res, err := getResultFromDaemonRpc[MoneroRpcGenericResponse[GetBlockHeaderByHeightResult]](c, http.MethodPost, "/json_rpc", req)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+	if res.Error.Code != 0 {
+		return nil, &res.Error
+	}
+
+	return res, nil
+}
+
+// get_block_headers_range
+func (c *DaemonRpcClient) GetBlockHeadersRange(fillPowHash bool, startHeight uint64, endHeight uint64) (*MoneroRpcGenericResponse[GetBlockHeadersRangeResult], error) {
+	req := &MoneroRpcRequest[GetBlockHeadersRangeParams]{defaultMoneroRpcHeader, "get_block_headers_range", GetBlockHeadersRangeParams{GetLastBlockHeaderParams{fillPowHash}, startHeight, endHeight}}
+
+	res, err := getResultFromDaemonRpc[MoneroRpcGenericResponse[GetBlockHeadersRangeResult]](c, http.MethodPost, "/json_rpc", req)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+	if res.Error.Code != 0 {
+		return nil, &res.Error
+	}
+
+	return res, nil
+}
+
+func CreateDaemonRpcClient(c *RpcConnection, timeout time.Duration, dlh DaemonListenerHandler) *DaemonRpcClient {
 	return &DaemonRpcClient{*c, timeout, 0, dlh, http.Client{}}
 }
