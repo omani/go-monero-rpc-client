@@ -7,7 +7,6 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"net/url"
 
 	"github.com/icholy/digest"
 	"github.com/monero-ecosystem/go-monero-rpc-client/util"
@@ -73,10 +72,7 @@ func (c *DaemonRpcClient) SetRpcConnection(connection *RpcConnection) {
 }
 
 func (c *DaemonRpcClient) sendRequest(method string, path string, body io.Reader) (*http.Response, error) {
-	url, err := url.JoinPath(c.connData.host.String(), path)
-	if err != nil {
-		return nil, err
-	}
+	url := c.connData.host.Scheme + "://" + c.connData.host.Host + path
 
 	req, err := http.NewRequest(method, url, body)
 	if err != nil {
