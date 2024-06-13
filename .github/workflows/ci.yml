@@ -36,7 +36,7 @@ jobs:
           go-version: ${{ matrix.go-version }}
 
       - name: Install Dependencies 
-        run: go get .
+        run: go mod download
 
       - name: Run Unit Tests
         run: go test ./test/unit
