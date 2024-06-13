@@ -21,6 +21,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      MONERO_DAEMON_RPC_ADDRESS: http://node.moneroworld.com:18089
     strategy:
       matrix:
         go-version: [ '1.18.x', '1.19.x', '1.20.x', '1.21.x', '1.x' ]
