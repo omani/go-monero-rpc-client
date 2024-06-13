@@ -43,4 +43,4 @@ jobs:
         run: go test ./test/unit
 
       - name: Run Integration Tests
-        run: go test ./test/unit
+        run: go test ./test/integration
