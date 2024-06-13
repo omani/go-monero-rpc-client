@@ -4,10 +4,15 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
 	"strconv"
+)
+
+const (
+	ATOMIC_UNIT float64 = 1e12
 )
 
 // NewPaymentID64 generates a 64 bit payment ID (hex encoded).
@@ -40,12 +45,12 @@ func XMRToDecimal(xmr uint64) string {
 
 // XMRToFloat64 converts raw atomic XMR to a float64
 func XMRToFloat64(xmr uint64) float64 {
-	return float64(xmr) / 1e12
+	return float64(xmr) / ATOMIC_UNIT
 }
 
 // Float64ToXMR converts a float64 to a raw atomic XMR
 func Float64ToXMR(xmr float64) uint64 {
-	return uint64(xmr * 1e12)
+	return uint64(xmr * ATOMIC_UNIT)
 }
 
 // StringToXMR converts a string to a raw atomic XMR
@@ -54,17 +59,11 @@ func StringToXMR(xmr string) (uint64, error) {
 	if err != nil {
 		return 0, err
 	}
-	return uint64(f * 1e12), nil
+	return uint64(f * ATOMIC_UNIT), nil
 }
 
 // JSON Mapping Related
-func ParseResponse[R any](body io.Reader) (*R, error) {
-	data, err := io.ReadAll(body)
-	if err != nil {
-		log.Println(err.Error())
-		return nil, err
-	}
-
+func parseJson[R any](data []byte) (*R, error) {
 	var result R
 	if err := json.Unmarshal(data, &result); err != nil {
 		log.Println(err.Error())
@@ -72,4 +71,22 @@ func ParseResponse[R any](body io.Reader) (*R, error) {
 	}
 
 	return &result, nil
+}
+
+func ParseJsonString[R any](str *string) (*R, error) {
+	if str == nil {
+		return nil, errors.New("util.ParseJsonString: string pointer can't be null")
+	}
+
+	return parseJson[R]([]byte(*str))
+}
+
+func ParseResponse[R any](body io.Reader) (*R, error) {
+	data, err := io.ReadAll(body)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+
+	return parseJson[R](data)
 }

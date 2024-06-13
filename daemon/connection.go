@@ -10,6 +10,6 @@ type RpcConnection struct {
 	password string
 }
 
-func NewRpcConnection(host url.URL, username, password string) *RpcConnection {
-	return &RpcConnection{host, username, password}
+func NewRpcConnection(host *url.URL, username, password string) *RpcConnection {
+	return &RpcConnection{*host, username, password}
 }
