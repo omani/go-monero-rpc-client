@@ -24,9 +24,9 @@ go get -u github.com/monero-ecosystem/go-monero-rpc-client
 #### Spawn the monero-wallet-rpc daemon (without rpc login):
 
 ```sh
-./monero-wallet-rpc --wallet-file /home/$user/stagenetwallet/stagenetwallet --daemon-address pool.cloudissh.com:38081 --stagenet --rpc-bind-port 6061 --password 'mystagenetwalletpassword' --disable-rpc-login
+./monero-wallet-rpc --wallet-file /home/$user/stagenetwallet/stagenetwallet --daemon-address YOUR_STAGENET_NODE:38081 --stagenet --rpc-bind-port 6061 --password 'mystagenetwalletpassword' --disable-rpc-login
 ```
-You can use our remote node for the stagenet running at pool.cloudissh.com port `38081`.
+You can either run your own stagenet server for testing purposes or select a remote stagenet node from eg. https://monero.fail/?chain=monero&network=stagenet (not associated with this site. I found it on google).
 
 #### Go code:
 
@@ -75,7 +75,7 @@ func main() {
 ### Spawn the monero-wallet-rpc daemon (with rpc login):
 
 ```sh
-./monero-wallet-rpc --wallet-file /home/$user/stagenetwallet/stagenetwallet --daemon-address pool.cloudissh.com:38081 --stagenet --rpc-bind-port 6061 --password 'mystagenetwalletpassword' --rpc-login test:testpass
+./monero-wallet-rpc --wallet-file /home/$user/stagenetwallet/stagenetwallet --daemon-address YOUR_STAGENET_NODE:38081 --stagenet --rpc-bind-port 6061 --password 'mystagenetwalletpassword' --rpc-login test:testpass
 ```
 
 #### Go code:
@@ -127,7 +127,7 @@ func main() {
 
 # Daemon RPC Client
 
-As of now, only the wallet RPC has been implemented. The daemon RPC will follow very soon.
+As of now, only the wallet RPC has been implemented.
 
 # Contribution
 * You can fork this, extend it and contribute back.
